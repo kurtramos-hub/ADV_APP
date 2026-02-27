@@ -3,7 +3,6 @@ import {
   Text,
   Image,
   Button,
-  FlatList,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -11,6 +10,7 @@ import {
   Modal,
   View,
   Alert,
+  ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
 import SearchBar from "../components/SearchBar";
@@ -19,13 +19,6 @@ const HomeScreen = () => {
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
   const [inputText, setInputText] = useState("");
-
-  const fruits = [
-    { id: "1", title: "LIST:" },
-    { id: "2", title: "Valorant" },
-    { id: "3", title: "Dota 2" },
-    { id: "4", title: "Puso" },
-  ];
 
   const handleSubmit = () => {
     Alert.alert("Submitted", inputText);
@@ -36,86 +29,86 @@ const HomeScreen = () => {
     Alert.alert("Modal closed", "The modal has been closed");
   };
 
-  // Component rendered above the FlatList items
-  const ListHeader = () => (
-    <>
-      <Text
-        style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          marginBottom: 10,
-          textAlign: "center",
-          paddingHorizontal: 20,
-        }}
-      >
-        This is Guko Home Screen
-      </Text>
-
-      <View style={{ alignItems: "center" }}>
-        <Image
-          source={require("../assets/images/GUKO.jpg")}
-          style={{ width: 300, height: 500, marginBottom: 10 }}
-        />
-      </View>
-
-      <SearchBar />
-
-      <Button
-        title="Go to Orders"
-        onPress={() => router.push("/orders")}
-        color={"#0a0c1c"}
-      />
-
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={{ marginVertical: 10, paddingHorizontal: 20 }}
-      >
-        <TextInput
-          placeholder="Enter something..."
-          value={inputText}
-          onChangeText={setInputText}
-          style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
-        />
-
-        <TouchableOpacity
-          onPress={handleSubmit}
-          style={{
-            backgroundColor: "#bce616",
-            padding: 10,
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Text style={{ color: "black" }}>Submit</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-
-      <Button
-        title="Show Modal"
-        onPress={() => setModalVisible(true)}
-        color={"#ce2121f9"}
-      />
-    </>
-  );
-
   return (
     <>
-      <FlatList
-        data={fruits}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Text style={{ padding: 5, alignSelf: "center" }}>{item.title}</Text>
-        )}
-        ListHeaderComponent={ListHeader}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      />
+      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        {/*  Title */}
+        <Text
+          style={{
+            fontSize: 24,
+            fontWeight: "bold",
+            marginBottom: 10,
+            textAlign: "center",
+            paddingHorizontal: 20,
+          }}
+        >
+          This is Guko Home Screen
+        </Text>
 
+        {/* Image */}
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={require("../assets/images/GUKO.jpg")}
+            style={{ width: 300, height: 500, marginBottom: 10 }}
+          />
+        </View>
+
+        {/*  SearchBar */}
+        <SearchBar />
+
+        {/* TextInput + Submit button */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={{ marginVertical: 10, paddingHorizontal: 20 }}
+        >
+          <TextInput
+            placeholder="Enter something..."
+            value={inputText}
+            onChangeText={setInputText}
+            style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+          />
+
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={{
+              backgroundColor: "#130a64",
+              padding: 10,
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={{ color: "white" }}>Submit</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+
+        {/* Go to Orders button */}
+        <View style={{ width: 250, alignSelf: "center", marginVertical: 5 }}>
+          <Button
+            title="Go to Orders"
+            onPress={() => router.push("/orders")}
+            color={"#858693"}
+          />
+        </View>
+
+        {/* Show Modal button */}
+        <View style={{ width: 250, alignSelf: "center", marginVertical: 5 }}>
+          <Button
+            title="Show Modal"
+            onPress={() => setModalVisible(true)}
+            color={"#b67734f9"}
+          />
+        </View>
+      </ScrollView>
+
+      {/* Modal */}
       <Modal
         visible={modalVisible}
         transparent
         animationType="slide"
         onRequestClose={handleCloseModal}
-        onDismiss={() => Alert.alert("Modal Closed", "The modal has been closed")}
+        onDismiss={() =>
+          Alert.alert("Modal Closed", "The modal has been closed")
+        }
       >
         <View
           style={{
